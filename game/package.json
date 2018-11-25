@@ -1,0 +1,26 @@
+{
+  "name": "game",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node game.js"
+  },
+  "xo": {
+    "esnext": true,
+    "space": 2,
+    "rules": {
+      "max-len": [
+        "error",
+        80,
+        2
+      ]
+    }
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.3.13",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  }
+}

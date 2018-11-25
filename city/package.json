@@ -1,0 +1,13 @@
+{
+  "name": "city",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    
+  },
+  "dependencies": {
+    "serverless": "^1.33.2",
+	"serverless-offline": "^3.31.3"
+  }
+}
