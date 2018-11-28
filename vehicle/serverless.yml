@@ -6,13 +6,17 @@ provider:
 
 functions:
   createVehicle:
-    handler: vehicle.createVehicleHandler
+    handler: vehicleHandler.createVehicleHandler
     events:
       - http: POST /createVehicle
   updateVehicle:
-    handler: vehicle.updateVehicleHandler
+    handler: vehicleHandler.updateVehicleHandler
     events:
       - http: POST /updateVehicle
+  getVehicle:
+    handler: vehicleHandler.getVehiclesHandler
+    events:
+      - http: POST /getVehicle
 
 plugins:
 - serverless-offline

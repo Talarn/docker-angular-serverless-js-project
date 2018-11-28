@@ -12,15 +12,21 @@ const requestPromise = require('request-promise');
 // };
 
 const test = () => {
-    requestPromise({body: {"name": "TESTVEHICULE", "x": 9, "y": 10}, json: true, method: 'POST', uri: 'http://192.168.99.100:3001/createVehicle'})
-.then(resultat => console.log(resultat)); //Faire les calculs ici
+//     requestPromise({body: {}, json: true, method: 'POST', uri: 'http://192.168.99.100:3001/getVehicle'})
+// .then(resultat => console.log(resultat));
+
+//     requestPromise({body: {"name": "AAAAAAAA", "x": 9, "y": 10}, json: true, method: 'POST', uri: 'http://192.168.99.100:3001/createVehicle'})
+// .then(resultat => console.log(resultat));
+
+    requestPromise({body: {"name": "AAAAAAAA", "x": 2, "y": 2}, json: true, method: 'POST', uri: 'http://192.168.99.100:3001/updateVehicle'})
+.then(resultat => console.log(resultat));
 };
 
 // setTimeout(initDB, 10000);
 setTimeout(test, 8000);
 
 // Boucle de jeu
-// Récupérer les véhicules
+// Récupérer le véhicule
 // Récupérer les villes
 // Pour chaque véhicule, envoyer la position des villes et du véhicule au pathfinding (si il n'a pas déjà un chemin)
 // Récupérer la liste des positions renvoyés par le pathfinding des villes à suivre

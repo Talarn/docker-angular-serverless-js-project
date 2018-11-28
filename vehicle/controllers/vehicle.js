@@ -1,3 +1,4 @@
+
 const {Vehicle} = require('../models/vehicle');
 
 const createVehicle = (name, x, y) => {
@@ -5,11 +6,14 @@ const createVehicle = (name, x, y) => {
 }
 
 const updateVehiclePosition = (name, x, y) => {
+  console.log('1111111111111111111111111111111111111111111111111111111');
     Vehicle.findOne({name})
     .then(vehicle => {
+      console.log('2222222222222222222222222222222222222222222222');
       if (vehicle) {
-        vehicle.x = 0; //calculer la nouvelle position
-        vehicle.y = 0; //calculer la nouvelle position
+        vehicle.x = x; 
+        vehicle.y = y; 
+        console.log('3333333333333333333333333333333333333');
         return vehicle.save();
       }
     })
@@ -18,6 +22,7 @@ const updateVehiclePosition = (name, x, y) => {
 
 const getVehicles = () => {
     return Vehicle.find({});
+}
 
 module.exports = {
     createVehicle,
