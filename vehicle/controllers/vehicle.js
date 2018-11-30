@@ -1,31 +1,24 @@
+const { Vehicle } = require('../models/vehicle');
 
-const {Vehicle} = require('../models/vehicle');
-
-const createVehicle = (name, x, y) => {
-  Vehicle({name, x, y}).save(); 
+const insertVehicles = (arr) => {
+  return Vehicle.insertMany(arr);
 }
 
-const updateVehiclePosition = (name, x, y) => {
-  console.log('1111111111111111111111111111111111111111111111111111111');
-    Vehicle.findOne({name})
-    .then(vehicle => {
-      console.log('2222222222222222222222222222222222222222222222');
-      if (vehicle) {
-        vehicle.x = x; 
-        vehicle.y = y; 
-        console.log('3333333333333333333333333333333333333');
-        return vehicle.save();
-      }
-    })
-    .catch(err => console.log(err));
+const updateVehiclePosition = async ({name, position}) => {
+  Vehicle.findOneAndUpdate({name}, { position }).exec();
 }
 
-const getVehicles = () => {
-    return Vehicle.find({});
+const assignVehicleDestination = async ({name, destination}) => {
+  Vehicle.findOneAndUpdate({name}, { destination }).exec();
+}
+
+const getVehicles = async  () => {
+  return Vehicle.find({}).exec(); //Renvoyer uniquement le nom, position et destination
 }
 
 module.exports = {
-    createVehicle,
-    updateVehiclePosition,
-    getVehicles
+  insertVehicles,
+  updateVehiclePosition,
+  getVehicles,
+  assignVehicleDestination
 };

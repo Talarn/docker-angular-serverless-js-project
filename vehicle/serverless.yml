@@ -1,22 +1,26 @@
-service: game-sls
+service: vehicle-sls
 
 provider:
   name: aws
   runtime: nodejs8.10
 
 functions:
-  createVehicle:
-    handler: vehicleHandler.createVehicleHandler
+  insertVehicles:
+    handler: vehicleHandler.insertVehiclesHandler
     events:
-      - http: POST /createVehicle
+      - http: POST /insertVehicles
   updateVehicle:
     handler: vehicleHandler.updateVehicleHandler
     events:
       - http: POST /updateVehicle
-  getVehicle:
+  getVehicles:
     handler: vehicleHandler.getVehiclesHandler
     events:
-      - http: POST /getVehicle
+      - http: GET /getVehicles
+  assignVehicleDestination:
+    handler: vehicleHandler.assignVehicleDestinationHandler
+    events:
+      - http: POST /assignVehicleDestination
 
 plugins:
 - serverless-offline

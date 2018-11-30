@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 
 const vehicleSchema = new Schema({
   name: String,
-  x: Number,
-  y: Number
+  position: Array,
+  destination: Array
 });
 
 const Vehicle = mongoose.model('Vehicle', vehicleSchema);

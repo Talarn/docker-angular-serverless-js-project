@@ -3,11 +3,26 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "devDependencies": {
-    
+  "scripts": {
+    "start": "sls offline start",
+    "docker": "sls offline start --host 0.0.0.0"
   },
+  "xo": {
+    "esnext": true,
+    "space": 2,
+    "rules": {
+      "max-len": [
+        "error",
+        80,
+        2
+      ]
+    }
+  },
+  "devDependencies": {},
   "dependencies": {
-    "serverless": "^1.33.2",
-	"serverless-offline": "^3.31.3"
+    "mongoose": "^5.3.13",
+    "serverless": "^1.33.1",
+    "serverless-offline": "^3.31.3"
   }
 }
+
