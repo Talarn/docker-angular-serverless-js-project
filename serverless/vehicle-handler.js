@@ -1,6 +1,7 @@
-const Vehicle = require('./controllers/vehicle');
 const mongoose = require('mongoose');
-const dbURL = process.env.DB
+const Vehicle = require('./controllers/vehicle');
+
+const dbURL = process.env.DB;
 mongoose.connect(dbURL);
 
 const insertVehiclesHandler = async msg => ({
@@ -20,8 +21,8 @@ const assignVehicleDestinationHandler = async msg => ({
 
 const getVehiclesHandler = async msg => ({
   status: 200,
-  body: JSON.stringify(await Vehicle.getVehicles())
-})
+  body: JSON.stringify(await Vehicle.getVehicles(JSON.parse(msg.body)))
+});
 
 module.exports = {
   insertVehiclesHandler,

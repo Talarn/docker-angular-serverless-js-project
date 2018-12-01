@@ -1,0 +1,35 @@
+service: serverless
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  insertVehicles:
+    handler: vehicle-handler.insertVehiclesHandler
+    events:
+      - http: POST /insertVehicles
+  updateVehicle:
+    handler: vehicle-handler.updateVehicleHandler
+    events:
+      - http: POST /updateVehicle
+  getVehicles:
+    handler: vehicle-handler.getVehiclesHandler
+    events:
+      - http: GET /getVehicles
+  assignVehicleDestination:
+    handler: vehicle-handler.assignVehicleDestinationHandler
+    events:
+      - http: POST /assignVehicleDestination
+
+  insertCities:
+    handler: city-handler.insertCitiesHandler
+    events:
+      - http: POST /insertCities
+  getCities:
+    handler: city-handler.getCitiesHandler
+    events:
+      - http: GET /getCities
+
+plugins:
+- serverless-offline

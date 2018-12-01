@@ -18,10 +18,10 @@
       ]
     }
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "serverless-offline": "^3.31.3"},
   "dependencies": {
     "mongoose": "^5.3.13",
-    "serverless": "^1.33.1",
-    "serverless-offline": "^3.31.3"
+    "serverless": "^1.33.1"
   }
 }

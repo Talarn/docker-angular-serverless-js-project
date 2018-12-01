@@ -1,6 +1,7 @@
-const City = require('./controllers/city');
 const mongoose = require('mongoose');
-const dbURL = process.env.DB
+const City = require('./controllers/city');
+
+const dbURL = process.env.DB;
 mongoose.connect(dbURL);
 
 const insertCitiesHandler = async msg => ({
@@ -10,8 +11,8 @@ const insertCitiesHandler = async msg => ({
 
 const getCitiesHandler = async msg => ({
   status: 200,
-  body: JSON.stringify(await City.getCities())
-})
+  body: JSON.stringify(await City.getCities(JSON.parse(msg.body)))
+});
 
 module.exports = {
   insertCitiesHandler,

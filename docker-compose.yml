@@ -1,25 +1,12 @@
 version: '3'
 services:
-  # city-serverless:
-  #   build: ./city
-  #   environment:
-  #     - DB=mongodb://db:27017/
-  #   ports:
-  #     - "3000:3000"
 
-  vehicle-serverless:
-    build: ./vehicle
+  serverless:
+    build: ./serverless
     environment:
       - DB=mongodb://db:27017/
     ports:
-      - "3001:3000"
-
-  # provider-serverless:
-  #   build: ./provider
-  #   environment:
-  #     - DB=mongodb://db:27017/
-  #   ports:
-  #     - "3002:3000"
+      - "3000:3000"
 
   db:
     image: mongo
@@ -30,6 +17,7 @@ services:
     build: ./game
     environment:
      - DB=mongodb://db:27017/
+     - SERVERLESS_URL=http://192.168.99.100:3000/
     ports:
       - "3003:3000"
 

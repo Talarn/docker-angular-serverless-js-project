@@ -1,41 +1,67 @@
 const requestPromise = require('request-promise');
 
-const vehiclesInitialization = () => {
-  let array = [
-    { name: 'Audi', position: [10, 10], destination: [0, 0] },
-    { name: 'Citroen', position: [11, 11], destination: [0, 0] },
-    { name: 'Volkswagen', position: [12, 12], destination: [0, 0] }
+const serverlessUrl = process.env.SERVERLESS_URL;
+
+const vehiclesInitialization = async () => {
+  const array = [
+    {name: 'Audi', position: [10, 10], destination: [0, 0]},
+    {name: 'Citroen', position: [11, 11], destination: [0, 0]},
+    {name: 'Volkswagen', position: [12, 12], destination: [0, 0]}
   ];
 
-  requestPromise({ body: array, json: true, method: 'POST', uri: 'http://192.168.99.100:3001/insertVehicles' })
-    .then(resultat => console.log(resultat));
-
+  await requestPromise({body: array, json: true, method: 'POST', uri: serverlessUrl + 'insertVehicles'});
 };
 
-const citiesInitialization = () => {
-  let array = [
-    { position: [50, 50] },
-    { position: [100, 100] },
-    { position: [40, 70] }
+const citiesInitialization = async () => {
+  const array = [
+    {position: [50, 50]},
+    {position: [100, 100]},
+    {position: [40, 70]}
   ];
 
-  requestPromise({ body: array, json: true, method: 'POST', uri: 'http://192.168.99.100:3000/insertCities' })
-    .then(resultat => console.log(resultat));
-}
-
-const test = () => {
-
-  // requestPromise({body: {}, json: true, method: 'GET', uri: 'http://192.168.99.100:3001/getVehicles'}).then(resultat => console.log(resultat));
-
-  requestPromise({ body: { name: 'Audi', destination: [6, 6] }, json: true, method: 'POST', uri: 'http://192.168.99.100:3001/assignVehicleDestination' }).then(resultat => console.log(resultat));
+  await requestPromise({body: array, json: true, method: 'POST', uri: serverlessUrl + 'insertCities'});
 };
 
-// setTimeout(vehiclesInitialization, 6000);
-setTimeout(citiesInitialization, 6000);
-// setTimeout(test, 6000);
+const retrieveCities = async () => {
+  let cities = null;
+  await requestPromise({body: {}, json: true, method: 'GET', uri: serverlessUrl + 'getCities'}).then(body => cities = body);
+  return cities;
+};
 
-// Boucle de jeu
+const retrieveVehicles = async () => {
+  let vehicles = null;
+  await requestPromise({body: {}, json: true, method: 'GET', uri: serverlessUrl + 'getVehicles'}).then(body => vehicles = body);
+  return vehicles;
+};
+
+const gameInitialization = async () => {
+  await vehiclesInitialization();
+  await citiesInitialization();
+  // rajouter provider
+};
+
+const gameLoop = async () => {
+  let vehicles = null;
+  let cities = null;
+
+  cities = await retrieveCities();
+  vehicles = await retrieveVehicles();
+  // console.log(cities);
+  // console.log(vehicles);
+
+  // vehicles.forEach(vehicle => {
+  //   console.log(vehicle);
+  // });
+
+
+  // await requestPromise({ body: { name: 'Audi', destination: [6, 6] }, json: true, method: 'POST', uri: serverlessUrl + 'assignVehicleDestination' }).then(result => console.log(result));
+};
+
+setTimeout(gameInitialization, 4000);
+setTimeout(gameLoop, 5000);
+
+// gameLoop
 // Récupérer le véhicule
-// Récupérer les villes
+// Récupérer les villes (pour l'instant, seulement une seul fois au début de la boucle)
 // Envoyer la position du véhicule et des villes au pathfinding
-// Calcule du pathfinding (initialiser une destination aléatoire) et mise à jour de la position d'un       véhicule
+// Calcul du pathfinding (initialiser une destination aléatoire juste avant)  et mise à jour de la position du véhicule

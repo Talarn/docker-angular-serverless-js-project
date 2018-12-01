@@ -1,11 +1,10 @@
 {
-  "name": "game",
+  "name": "projet-js",
   "version": "1.0.0",
   "main": "index.js",
+  "repository": "https://github.com/SylvainRajkoumar/projet-js",
+  "author": "Rajkoumar <sylvain.rajkoumar@gmail.com>",
   "license": "MIT",
-  "scripts": {
-    "start": "node game.js"
-  },
   "xo": {
     "esnext": true,
     "space": 2,
@@ -16,10 +15,5 @@
         2
       ]
     }
-  },
-  "dependencies": {
-    "mongoose": "^5.3.13",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.2"
   }
 }
