@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "sls offline start",
-    "docker": "sls offline start --host 0.0.0.0"
+    "docker": "sls offline start --host 0.0.0.0 --useSeparateProcesses"
   },
   "xo": {
     "esnext": true,

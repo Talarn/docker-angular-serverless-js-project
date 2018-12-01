@@ -44,10 +44,10 @@ const gameLoop = async () => {
   let vehicles = null;
   let cities = null;
 
-  cities = await retrieveCities();
+  // cities = await retrieveCities();
   vehicles = await retrieveVehicles();
   // console.log(cities);
-  // console.log(vehicles);
+  console.log(vehicles);
 
   // vehicles.forEach(vehicle => {
   //   console.log(vehicle);
