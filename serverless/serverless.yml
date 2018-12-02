@@ -9,10 +9,10 @@ functions:
     handler: vehicle-handler.insertVehiclesHandler
     events:
       - http: POST /insertVehicles
-  updateVehicle:
-    handler: vehicle-handler.updateVehicleHandler
+  updateVehiclePosition:
+    handler: vehicle-handler.updateVehiclePositionHandler
     events:
-      - http: POST /updateVehicle
+      - http: POST /updateVehiclePosition
   getVehicles:
     handler: vehicle-handler.getVehiclesHandler
     events:
@@ -33,7 +33,7 @@ functions:
   pathfinding:
     handler: pathfinding-handler.shortestPathHandler
     events:
-      - http: GET /pathfinding
+      - http: POST /pathfinding
 
 plugins:
 - serverless-offline
