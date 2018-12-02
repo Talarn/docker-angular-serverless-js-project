@@ -30,6 +30,10 @@ functions:
     handler: city-handler.getCitiesHandler
     events:
       - http: GET /getCities
+  pathfinding:
+    handler: pathfinding-handler.shortestPathHandler
+    events:
+      - http: GET /pathfinding
 
 plugins:
 - serverless-offline

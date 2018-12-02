@@ -2,24 +2,34 @@ const requestPromise = require('request-promise');
 
 const serverlessUrl = process.env.SERVERLESS_URL;
 
-const vehiclesInitialization = async () => {
-  const array = [
-    {name: 'Audi', position: [10, 10], destination: [0, 0]},
-    {name: 'Citroen', position: [11, 11], destination: [0, 0]},
-    {name: 'Volkswagen', position: [12, 12], destination: [0, 0]}
-  ];
-
-  await requestPromise({body: array, json: true, method: 'POST', uri: serverlessUrl + 'insertVehicles'});
+getRandomInt = maxValue => {
+  return Math.floor(Math.random() * Math.floor(maxValue));
 };
 
-const citiesInitialization = async () => {
+const vehiclesInitialization = () => {
   const array = [
-    {position: [50, 50]},
-    {position: [100, 100]},
-    {position: [40, 70]}
+    {name: 'Toyota', position: [0, 0], destination: [0, 0]},
+    {name: 'Jeep', position: [0, 0], destination: [0, 0]},
+    {name: 'BMW', position: [0, 0], destination: [0, 0]},
+    {name: 'Volvo', position: [0, 0], destination: [0, 0]},
+    {name: 'Audi', position: [0, 0], destination: [0, 0]},
+    {name: 'Ford', position: [0, 0], destination: [0, 0]},
+    {name: 'Honda', position: [0, 0], destination: [0, 0]},
+    {name: 'Kia', position: [0, 0], destination: [0, 0]},
+    {name: 'Mazda', position: [0, 0], destination: [0, 0]}
   ];
 
-  await requestPromise({body: array, json: true, method: 'POST', uri: serverlessUrl + 'insertCities'});
+  requestPromise({body: array, json: true, method: 'POST', uri: serverlessUrl + 'insertVehicles'});
+};
+
+const citiesInitialization = (amount) => {
+  let array = [];
+
+  for (let i = 0; i < amount; i++){
+    array.push({position: [getRandomInt(100), getRandomInt(100)]});
+  }
+
+  requestPromise({body: array, json: true, method: 'POST', uri: serverlessUrl + 'insertCities'});
 };
 
 const retrieveCities = async () => {
@@ -34,27 +44,44 @@ const retrieveVehicles = async () => {
   return vehicles;
 };
 
-const gameInitialization = async () => {
-  await vehiclesInitialization();
-  await citiesInitialization();
+const gameInitialization =  () => {
+   vehiclesInitialization();
+   citiesInitialization(5);
   // rajouter provider
 };
 
 const gameLoop = async () => {
-  let vehicles = null;
-  let cities = null;
+  let vehicles;
+  let cities;
 
-  // cities = await retrieveCities();
+  cities = await retrieveCities();
   vehicles = await retrieveVehicles();
-  // console.log(cities);
+
+  console.log(cities);
   console.log(vehicles);
 
-  // vehicles.forEach(vehicle => {
-  //   console.log(vehicle);
-  // });
+  vehicles.forEach(vehicle => {
+    let randomCityPosition = cities[Math.floor(Math.random() * Math.floor(cities.length))].position;
+    requestPromise({body: {name: vehicle.name, position: randomCityPosition }, json: true, method: 'POST', uri: serverlessUrl + 'updateVehicle'});
+
+    //Faire en sorte que la ville choisie ne soit pas la même
+    randomCityPosition = cities[Math.floor(Math.random() * Math.floor(cities.length))].position;
+    requestPromise({body: {name: vehicle.name, destination: randomCityPosition }, json: true, method: 'POST', uri: serverlessUrl + 'assignVehicleDestination'});
+
+  });
+
+  vehicles = await retrieveVehicles();
+  vehicles.forEach(vehicle => {
+      let result = requestPromise({body: {vehicle: vehicle}, json: true, method: 'GET', uri: serverlessUrl + 'pathfinding'});
+      console.log("VECTEUR UNITAIRE", result);
+  });
 
 
-  // await requestPromise({ body: { name: 'Audi', destination: [6, 6] }, json: true, method: 'POST', uri: serverlessUrl + 'assignVehicleDestination' }).then(result => console.log(result));
+  console.log("VEHICLE POSITION INITIALIZED TO A RANDOM CITY");
+  console.log(vehicles);
+
+
+
 };
 
 setTimeout(gameInitialization, 4000);
