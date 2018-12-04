@@ -14,6 +14,11 @@ const updateVehiclePositionHandler = async msg => ({
   body: JSON.stringify(await Vehicle.updateVehiclePosition(JSON.parse(msg.body)))
 });
 
+const assignVehiclePathHandler = async msg => ({
+  status: 200,
+  body: JSON.stringify(await Vehicle.assignVehiclePath(JSON.parse(msg.body)))
+});
+
 const assignVehicleDestinationHandler = async msg => ({
   status: 200,
   body: JSON.stringify(await Vehicle.assignVehicleDestination(JSON.parse(msg.body)))
@@ -28,5 +33,6 @@ module.exports = {
   insertVehiclesHandler,
   updateVehiclePositionHandler,
   getVehiclesHandler,
-  assignVehicleDestinationHandler
+  assignVehicleDestinationHandler,
+  assignVehiclePathHandler
 };

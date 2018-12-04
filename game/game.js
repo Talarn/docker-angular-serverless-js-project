@@ -14,9 +14,6 @@ const vehiclesInitialization = async () => {
     {name: 'Volvo', position: [0, 0], destination: [0, 0], path: []},
     {name: 'Audi', position: [0, 0], destination: [0, 0], path: []},
     {name: 'Ford', position: [0, 0], destination: [0, 0], path: []}
-    // {name: 'Honda', position: [0, 0], destination: [0, 0]},
-    // {name: 'Kia', position: [0, 0], destination: [0, 0]},
-    // {name: 'Mazda', position: [0, 0], destination: [0, 0]}
   ];
 
   await requestPromise({body: array, json: true, method: 'POST', uri: serverlessUrl + 'insertVehicles'});
@@ -52,8 +49,6 @@ const assignVehicleDestination = async (name, destination) => {
   await requestPromise({body: {name: name, destination: destination }, json: true, method: 'POST', uri: serverlessUrl + 'assignVehicleDestination'});
 };
 
-
-
 const vehiclesPositionInitialisation =  async (vehicles, cities) =>{
   for (let i = 0; i < vehicles.length; i++) {
     // let randomCityPosition = cities[Math.floor(Math.random() * Math.floor(cities.length))].position;
@@ -64,20 +59,62 @@ const vehiclesPositionInitialisation =  async (vehicles, cities) =>{
   }
 };
 
-
-const pathfindingCalculation = async (vehicle, cities) => {
-  let result = null;
-  await requestPromise({body: {vehicle: vehicle}, json: true, method: 'POST', uri: serverlessUrl + 'pathfinding'})
-  .then(body => result = body);
-  result[0] += vehicle.position[0];
-  result[1] += vehicle.position[1];
-//  renvoyer une requete pour mettre à jour la position du vehicule
+const getUnitVector = (a, b) => {
+  const vector = [a[0] - b[0], a[1] - b[1]];
+  const vectorLength = Math.floor(Math.sqrt((vector[0] * vector[0]) + (vector[1] * vector[1])));
+  vector[0] /= vectorLength;
+  vector[1] /= vectorLength;
+  vector[0] = Math.ceil(vector[0] * 2);
+  vector[1] = Math.ceil(vector[1]* 2);
+  return vector;
 };
 
-const vehiclesPathfindingCalculation = async (vehicles, cities) => {
+const isNear = (vehiclePosition, cityPosition) => {
+  const vector = [vehiclePosition[0] - cityPosition[0], vehiclePosition[1] - cityPosition[1]];
+  const vectorLength = Math.floor(Math.sqrt((vector[0] * vector[0]) + (vector[1] * vector[1])));
+  return (vectorLength < 2 ? true : false);
+};
+
+const removeCityFromPath = async (name) => {
+  await requestPromise({body: {name: name}, json: true, method: 'POST', uri: serverlessUrl + 'removeCityFromPath'});
+};
+
+const moveVehicles = async (vehicles) => {
+  for (let i = 0; i < vehicles.length; i++){
+    let vehicle = vehicles[i];
+    let nextCityPosition = vehicle.path[0];
+    let unitVector = getUnitVector(vehicle.position, nextCityPosition);
+    let newX = vehicle.position[0] + unitVector[0];
+    let newY = vehicle.position[1] + unitVector[1];
+    await updateVehiclePosition(vehicle.name, [newX, newY]);
+};
+
+const pathFinding = async (vehicle, cities) => {
+  let path = null;
+  await requestPromise({body: {vehicle: vehicle, cities: cities}, json: true, method: 'POST', uri: serverlessUrl + 'pathfinding'}).then(body => path = body);
+  await requestPromise({body: {name: vehicle.name, path: path }, json: true, method: 'POST', uri: serverlessUrl + 'assignVehiclePath'});
+};
+
+const vehiclesPathFinding = async (vehicles, cities) => {
   for (let i = 0; i < vehicles.length; i++) {
-    await pathfindingCalculation(vehicles[i], cities);
+    if(vehicles[i].path.length == 0)
+      await pathFinding(vehicles[i], cities);
   }
+};
+
+const providerSupplying = async (vehicles)=> {
+  for (let i = 0; i < vehicles.length; i++) {
+    let vehicle = vehicles[i];
+    let path = vehicle.path;
+    if (isNear(vehicle.position, path[0])) {
+
+    }
+  }
+//regarder si le véhicule est proche d'une ville,
+  // si oui faire une demande de ?????
+  // enlever la ville du path
+  //si c'était la dernière ville, choisir une nouvelle destination ou
+  // retirer le véhicule
 };
 
 const gameInitialization = async () => {
@@ -97,9 +134,12 @@ const gameLoop = async () => {
 
   vehicles = await retrieveVehicles();
   cities = await retrieveCities();
-  console.log(vehicles);
-  console.log(cities);
-  await vehiclesPathfindingCalculation(vehicles, cities);
+  // console.log(vehicles);
+  // console.log(cities);
+  await vehiclesPathFinding(vehicles, cities);
+  vehicles = await retrieveVehicles();
+  await moveVehicles(vehicles);
+  await providerSupplying(vehicles);
 
 };
 

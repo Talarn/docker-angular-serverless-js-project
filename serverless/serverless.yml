@@ -21,6 +21,10 @@ functions:
     handler: vehicle-handler.assignVehicleDestinationHandler
     events:
       - http: POST /assignVehicleDestination
+  assignVehiclePath:
+    handler: vehicle-handler.assignVehiclePathHandler
+    events:
+      - http: POST /assignVehiclePath
 
   insertCities:
     handler: city-handler.insertCitiesHandler
@@ -31,7 +35,7 @@ functions:
     events:
       - http: GET /getCities
   pathfinding:
-    handler: pathfinding-handler.shortestPathHandler
+    handler: pathfinding-handler.pathfindingHandler
     events:
       - http: POST /pathfinding
 
