@@ -75,8 +75,8 @@ const isNear = (vehiclePosition, cityPosition) => {
   return (vectorLength < 2 ? true : false);
 };
 
-const removeCityFromPath = async (name) => {
-  await requestPromise({body: {name: name}, json: true, method: 'POST', uri: serverlessUrl + 'removeCityFromPath'});
+const updateVehiclePath = async (name, path) => {
+  await requestPromise({body: {name: name, path: path}, json: true, method: 'POST', uri: serverlessUrl + 'removeCityFromPath'});
 };
 
 const moveVehicles = async (vehicles) => {
@@ -101,12 +101,12 @@ const vehiclesPathFinding = async (vehicles, cities) => {
       await pathFinding(vehicles[i], cities);
   }
 };
-
+//trouver un autre nom pour la fonction
 const providerSupplying = async (vehicles)=> {
   for (let i = 0; i < vehicles.length; i++) {
     let vehicle = vehicles[i];
-    let path = vehicle.path;
-    if (isNear(vehicle.position, path[0])) {
+    let nextCityPosition = vehicle.path[0];
+    if (isNear(vehicle.position, nextCityPosition)) {
 
     }
   }
