@@ -8,12 +8,12 @@ getRandomInt = maxValue => {
 
 const vehiclesInitialization = async () => {
   const array = [
-    {name: 'Toyota', position: [0, 0], destination: [0, 0]},
-    {name: 'Jeep', position: [0, 0], destination: [0, 0]},
-    {name: 'BMW', position: [0, 0], destination: [0, 0]},
-    {name: 'Volvo', position: [0, 0], destination: [0, 0]},
-    {name: 'Audi', position: [0, 0], destination: [0, 0]},
-    {name: 'Ford', position: [0, 0], destination: [0, 0]}
+    {name: 'Toyota', position: [0, 0], destination: [0, 0], path: []},
+    {name: 'Jeep', position: [0, 0], destination: [0, 0], path: []},
+    {name: 'BMW', position: [0, 0], destination: [0, 0], path: []},
+    {name: 'Volvo', position: [0, 0], destination: [0, 0], path: []},
+    {name: 'Audi', position: [0, 0], destination: [0, 0], path: []},
+    {name: 'Ford', position: [0, 0], destination: [0, 0], path: []}
     // {name: 'Honda', position: [0, 0], destination: [0, 0]},
     // {name: 'Kia', position: [0, 0], destination: [0, 0]},
     // {name: 'Mazda', position: [0, 0], destination: [0, 0]}
@@ -56,10 +56,10 @@ const assignVehicleDestination = async (name, destination) => {
 
 const vehiclesPositionInitialisation =  async (vehicles, cities) =>{
   for (let i = 0; i < vehicles.length; i++) {
-    let randomCityPosition = cities[Math.floor(Math.random() * Math.floor(cities.length))].position;
-    await updateVehiclePosition(vehicles[i].name, randomCityPosition);
+    // let randomCityPosition = cities[Math.floor(Math.random() * Math.floor(cities.length))].position;
+    // await updateVehiclePosition(vehicles[i].name, randomCityPosition);
 
-    randomCityPosition = cities[Math.floor(Math.random() * Math.floor(cities.length))].position;
+    let randomCityPosition = cities[Math.floor(Math.random() * Math.floor(cities.length))].position;
     await assignVehicleDestination(vehicles[i].name, randomCityPosition);
   }
 };
@@ -67,9 +67,10 @@ const vehiclesPositionInitialisation =  async (vehicles, cities) =>{
 
 const pathfindingCalculation = async (vehicle, cities) => {
   let result = null;
-  await requestPromise({body: {vehicle: vehicle}, json: true, method: 'POST', uri: serverlessUrl + 'pathfinding'});
-  // .then(body => result = body);
-  console.log(result);
+  await requestPromise({body: {vehicle: vehicle}, json: true, method: 'POST', uri: serverlessUrl + 'pathfinding'})
+  .then(body => result = body);
+  result[0] += vehicle.position[0];
+  result[1] += vehicle.position[1];
 //  renvoyer une requete pour mettre à jour la position du vehicule
 };
 
@@ -85,8 +86,8 @@ const gameInitialization = async () => {
   await vehiclesInitialization();
   await citiesInitialization(5);
 
-  cities = await retrieveCities();
   vehicles = await retrieveVehicles();
+  cities = await retrieveCities();
   await vehiclesPositionInitialisation(vehicles, cities);
 };
 
@@ -102,5 +103,5 @@ const gameLoop = async () => {
 
 };
 
-setTimeout(gameInitialization, 6000);
-setTimeout(gameLoop, 10000);
+setTimeout(gameInitialization, 8000);
+setTimeout(() => {setInterval(gameLoop,2000)}, 12000);
