@@ -5,7 +5,7 @@ const insertCities = arr => {
 };
 
 const getCities = () => {
-  return City.find({}, {position: 1, _id:0}).exec();
+  return City.find({}, {position: 1, _id: 0}).exec();
 };
 
 module.exports = {

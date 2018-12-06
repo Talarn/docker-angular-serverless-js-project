@@ -5,14 +5,14 @@ const insertVehicles = async arr => {
 };
 
 const updateVehiclePosition = async ({name, position}) => {
-  console.log("Vehicle", name, "new position :", position);
+  console.log('Vehicle', name, 'new position :', position);
   await Vehicle.findOneAndUpdate({name}, {position}).exec();
 };
 const updateVehicleSpeed = async ({name, speed}) => {
   await Vehicle.findOneAndUpdate({name}, {speed}).exec();
 };
 const updateVehicleDestination = async ({name, destination}) => {
-  console.log("Vehicle", name, "new destination :", destination);
+  console.log('Vehicle', name, 'new destination :', destination);
   await Vehicle.findOneAndUpdate({name}, {destination}).exec();
 };
 
