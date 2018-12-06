@@ -9,12 +9,12 @@ const updateVehiclePosition = async ({name, position}) => {
   await Vehicle.findOneAndUpdate({name}, {position}).exec();
 };
 
-const assignVehicleDestination = async ({name, destination}) => {
+const updateVehicleDestination = async ({name, destination}) => {
   console.log("Vehicle", name, "new destination :", destination);
   await Vehicle.findOneAndUpdate({name}, {destination}).exec();
 };
 
-const assignVehiclePath = async ({name, path}) => {
+const updateVehiclePath = async ({name, path}) => {
   await Vehicle.findOneAndUpdate({name}, {path}).exec();
 };
 
@@ -26,6 +26,6 @@ module.exports = {
   insertVehicles,
   updateVehiclePosition,
   getVehicles,
-  assignVehicleDestination,
-  assignVehiclePath
+  updateVehicleDestination,
+  updateVehiclePath
 };

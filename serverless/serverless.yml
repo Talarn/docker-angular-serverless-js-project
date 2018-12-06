@@ -17,14 +17,14 @@ functions:
     handler: vehicle-handler.getVehiclesHandler
     events:
       - http: GET /getVehicles
-  assignVehicleDestination:
-    handler: vehicle-handler.assignVehicleDestinationHandler
+  updateVehicleDestination:
+    handler: vehicle-handler.updateVehicleDestinationHandler
     events:
-      - http: POST /assignVehicleDestination
-  assignVehiclePath:
-    handler: vehicle-handler.assignVehiclePathHandler
+      - http: POST /updateVehicleDestination
+  updateVehiclePath:
+    handler: vehicle-handler.updateVehiclePathHandler
     events:
-      - http: POST /assignVehiclePath
+      - http: POST /updateVehiclePath
 
   insertCities:
     handler: city-handler.insertCitiesHandler
