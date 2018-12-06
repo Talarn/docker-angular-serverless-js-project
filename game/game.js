@@ -1,14 +1,21 @@
 const requestPromise = require('request-promise');
 
 const serverlessUrl = process.env.SERVERLESS_URL;
-
+//Modifier les fonctions avec un request à la fin
 getRandomInt = maxValue => {
   return Math.floor(Math.random() * Math.floor(maxValue));
 };
 
+const getSpeedBoost = async () => {
+  let speedBoost = null;
+  await requestPromise({body: {}, json: true, method: 'GET', uri: serverlessUrl + 'provideBoost'}).then(body => speedBoost = body);
+  return speedBoost;
+};
+
 const vehiclesInitialization = async () => {
+  //Rajouter une vitesse au véhicule
   const array = [
-    {name: 'Toyota', position: [0, 0], destination: [0, 0], path: []}
+    {name: 'Toyota', position: [0, 0], destination: [0, 0], speed: 1, path: []}
   ];
   await requestPromise({body: array, json: true, method: 'POST', uri: serverlessUrl + 'insertVehicles'});
 };
@@ -45,14 +52,14 @@ const updateVehicleDestination = async (name, destination) => {
 const updateVehiclePath = async (name, path) => {
   await requestPromise({body: {name: name, path: path }, json: true, method: 'POST', uri: serverlessUrl + 'updateVehiclePath'});
 };
+const updateVehicleSpeed = async (name, speed) => {
+  await requestPromise({body: {name: name, speed: speed }, json: true, method: 'POST', uri: serverlessUrl + 'updateVehicleSpeed'});
+};
 
-//Initialiser une position initiale mais pas de destination
 const vehiclesPositionInitialisation =  async (vehicles, cities) =>{
   for (let i = 0; i < vehicles.length; i++) {
-    // let randomCityPosition = cities[Math.floor(Math.random() * Math.floor(cities.length))].position;
-    // await updateVehiclePosition(vehicles[i].name, randomCityPosition);
-
     let randomCityPosition = cities[Math.floor(Math.random() * Math.floor(cities.length))].position;
+    await updateVehiclePosition(vehicles[i].name, randomCityPosition);
     await updateVehicleDestination(vehicles[i].name, randomCityPosition);
   }
 };
@@ -68,11 +75,10 @@ const getUnitVector = (a, b) => {
 };
 
 const isNear = (vehiclePosition, cityPosition) => {
-  const vector = [vehiclePosition[0] - cityPosition[0], vehiclePosition[1] - cityPosition[1]];
+  const vector = [cityPosition[0] - vehiclePosition[0], cityPosition[1] - vehiclePosition[1]];
   const vectorLength = Math.floor(Math.sqrt((vector[0] * vector[0]) + (vector[1] * vector[1])));
   return (vectorLength < 2 ? true : false);
 };
-
 
 const moveVehicles = async (vehicles) => {
   for (let i = 0; i < vehicles.length; i++) {
@@ -91,6 +97,7 @@ const pathFinding = async (vehicle, cities) => {
   await updateVehiclePath(vehicle.name, path);
 };
 
+
 const vehiclesPathFinding = async (vehicles, cities) => {
   for (let i = 0; i < vehicles.length; i++) {
     if(vehicles[i].path.length === 0)
@@ -103,21 +110,20 @@ const checkTownProximity = async (vehicles)=> {
     let vehicle = vehicles[i];
     let nextCityPosition = vehicle.path[0];
     if (isNear(vehicle.position, nextCityPosition)) {
+      let speedBoost = await getSpeedBoost();
+      await updateVehicleSpeed(vehicle.name, speedBoost).
       vehicle.path.shift();
       await updateVehiclePath(vehicle.name, vehicle.path);
     }
+
     if (vehicle.path.length === 0){
         await gameInitialization();
     }
   }
 
-// regarder si le véhicule est proche d'une ville,
-//   si oui faire une demande au provider pour un bonus
-//   enlever la ville du path
-//   si c'était la dernière ville, choisir une nouvelle destination ou
-//   retirer le véhicule
 };
 
+// Penser à vider la base mongo juste avant
 const gameInitialization = async () => {
   let cities, vehicles;
 

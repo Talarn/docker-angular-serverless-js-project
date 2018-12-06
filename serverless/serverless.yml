@@ -25,6 +25,10 @@ functions:
     handler: vehicle-handler.updateVehiclePathHandler
     events:
       - http: POST /updateVehiclePath
+  updateVehicleSpeed:
+    handler: vehicle-handler.updateVehicleSpeedHandler
+    events:
+      - http: POST /updateVehicleSpeed
 
   insertCities:
     handler: city-handler.insertCitiesHandler
@@ -38,6 +42,10 @@ functions:
     handler: pathfinding-handler.pathfindingHandler
     events:
       - http: POST /pathfinding
+  provideBoost:
+    handler: provider-handler.provideBoostHandler
+    events:
+      - http: GET /provideBoost
 
 plugins:
 - serverless-offline

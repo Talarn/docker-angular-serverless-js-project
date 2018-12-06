@@ -4,6 +4,7 @@ const vehicleSchema = new mongoose.Schema({
   name: String,
   position: Array,
   destination: Array,
+  speed: Number,
   path: Array
 });
 
