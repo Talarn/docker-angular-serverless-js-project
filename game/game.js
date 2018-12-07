@@ -20,7 +20,7 @@ const vehiclesInitialization = async () => {
 };
 
 const citiesInitialization = async amount => {
-  let array = [];
+  const array = [];
 
   for (let i = 0; i < amount; i++){
     array.push({position: [getRandomInt(100), getRandomInt(100)]});
@@ -79,7 +79,6 @@ const isNear = (vehiclePosition, cityPosition) => {
   return (vectorLength < 7 ? true : false);
 };
 
-//Revoir le calcul
 const moveVehicles = async (vehicles) => {
   for (let i = 0; i < vehicles.length; i++) {
     const vehicle = vehicles[i];
@@ -98,11 +97,11 @@ const pathFinding = async (vehicle, cities) => {
   await updateVehiclePath(vehicle.name, path);
 };
 
-
 const vehiclesPathFinding = async (vehicles, cities) => {
   for (let i = 0; i < vehicles.length; i++) {
-    if(vehicles[i].path.length === 0)
+    if(vehicles[i].path.length === 0) {
       await pathFinding(vehicles[i], cities);
+    }
   }
 };
 
@@ -118,8 +117,8 @@ const checkTownProximity = async (vehicles)=> {
     }
 
     if (vehicle.path.length === 0){
-        await dropCollections();
-        await gameInitialization();
+      await dropCollections();
+      await gameInitialization();
     }
   }
 
@@ -130,7 +129,6 @@ const dropCollections = async () => {
   await requestPromise({body: {}, json: true, method: 'POST', uri: serverlessUrl + 'dropCityCollection'});
 };
 
-// Penser à vider la base mongo juste avant
 const gameInitialization = async () => {
 
   await vehiclesInitialization();
@@ -154,5 +152,5 @@ const gameLoop = async () => {
 
 setTimeout(gameInitialization, 8000);
 setTimeout(() => {
-  setInterval(gameLoop,2000)},
-  12000);
+  setInterval(gameLoop, 2000);
+}, 12000);
