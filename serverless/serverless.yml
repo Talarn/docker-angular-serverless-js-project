@@ -29,7 +29,14 @@ functions:
     handler: vehicle-handler.updateVehicleSpeedHandler
     events:
       - http: POST /updateVehicleSpeed
-
+  dropVehicleCollection:
+    handler: vehicle-handler.dropVehicleCollectionHandler
+    events:
+      - http: POST /dropVehicleCollection
+  dropCityCollection:
+    handler: city-handler.dropCityCollectionHandler
+    events:
+      - http: POST /dropCityCollection
   insertCities:
     handler: city-handler.insertCitiesHandler
     events:
@@ -46,6 +53,8 @@ functions:
     handler: provider-handler.provideBoostHandler
     events:
       - http: GET /provideBoost
+
+
 
 plugins:
 - serverless-offline

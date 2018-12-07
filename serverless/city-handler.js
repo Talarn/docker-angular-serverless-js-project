@@ -14,7 +14,13 @@ const getCitiesHandler = async msg => ({
   body: JSON.stringify(await City.getCities(JSON.parse(msg.body)))
 });
 
+const dropCityCollectionHandler = async msg => ({
+  status: 200,
+  body: JSON.stringify(await City.dropCityCollection(JSON.parse(msg.body)))
+});
+
 module.exports = {
   insertCitiesHandler,
-  getCitiesHandler
+  getCitiesHandler,
+  dropCityCollectionHandler
 };

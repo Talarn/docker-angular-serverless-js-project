@@ -24,11 +24,17 @@ const getVehicles = () => {
   return Vehicle.find({}, {name: 1, position: 1, destination: 1, _id: 0, path: 1}).exec();
 };
 
+const dropVehicleCollection = async () => {
+  await Vehicle.remove({}, function(err) {
+  });
+};
+
 module.exports = {
   insertVehicles,
   updateVehiclePosition,
   getVehicles,
   updateVehicleDestination,
   updateVehiclePath,
-  updateVehicleSpeed
+  updateVehicleSpeed,
+  dropVehicleCollection
 };

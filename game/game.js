@@ -13,7 +13,6 @@ const getSpeedBoost = async () => {
 };
 
 const vehiclesInitialization = async () => {
-  //Rajouter une vitesse au véhicule
   const array = [
     {name: 'Toyota', position: [0, 0], destination: [0, 0], speed: 1, path: []}
   ];
@@ -65,26 +64,28 @@ const vehiclesPositionInitialisation =  async (vehicles, cities) =>{
 };
 
 const getUnitVector = (a, b) => {
-  const vector = [a[0] - b[0], a[1] - b[1]];
+  const vector = [b[0] - a[0], b[1] - a[1]];
   const vectorLength = Math.floor(Math.sqrt((vector[0] * vector[0]) + (vector[1] * vector[1])));
   vector[0] /= vectorLength;
   vector[1] /= vectorLength;
-  vector[0] = Math.ceil(vector[0] * 2);
-  vector[1] = Math.ceil(vector[1]* 2);
+  vector[0] = Math.ceil(vector[0] * 4);
+  vector[1] = Math.ceil(vector[1]* 4);
   return vector;
 };
 
 const isNear = (vehiclePosition, cityPosition) => {
   const vector = [cityPosition[0] - vehiclePosition[0], cityPosition[1] - vehiclePosition[1]];
   const vectorLength = Math.floor(Math.sqrt((vector[0] * vector[0]) + (vector[1] * vector[1])));
-  return (vectorLength < 2 ? true : false);
+  return (vectorLength < 7 ? true : false);
 };
 
+//Revoir le calcul
 const moveVehicles = async (vehicles) => {
   for (let i = 0; i < vehicles.length; i++) {
     const vehicle = vehicles[i];
     const nextCityPosition = vehicle.path[0];
     const unitVector = getUnitVector(vehicle.position, nextCityPosition);
+    console.log(unitVector);
     const newX = vehicle.position[0] + unitVector[0];
     const newY = vehicle.position[1] + unitVector[1];
     await updateVehiclePosition(vehicle.name, [newX, newY]);
@@ -111,23 +112,29 @@ const checkTownProximity = async (vehicles)=> {
     const nextCityPosition = vehicle.path[0];
     if (isNear(vehicle.position, nextCityPosition)) {
       const speedBoost = await getSpeedBoost();
-      await updateVehicleSpeed(vehicle.name, speedBoost).
+      await updateVehicleSpeed(vehicle.name, speedBoost);
       vehicle.path.shift();
       await updateVehiclePath(vehicle.name, vehicle.path);
     }
 
     if (vehicle.path.length === 0){
+        await dropCollections();
         await gameInitialization();
     }
   }
 
 };
 
+const dropCollections = async () => {
+  await requestPromise({body: {}, json: true, method: 'POST', uri: serverlessUrl + 'dropVehicleCollection'});
+  await requestPromise({body: {}, json: true, method: 'POST', uri: serverlessUrl + 'dropCityCollection'});
+};
+
 // Penser à vider la base mongo juste avant
 const gameInitialization = async () => {
 
   await vehiclesInitialization();
-  await citiesInitialization(5);
+  await citiesInitialization(3);
 
   const vehicles = await retrieveVehicles();
   const cities = await retrieveCities();

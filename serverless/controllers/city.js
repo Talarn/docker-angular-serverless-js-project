@@ -8,7 +8,13 @@ const getCities = () => {
   return City.find({}, {position: 1, _id: 0}).exec();
 };
 
+const dropCityCollection = async () => {
+  await City.remove({}, function(err) {
+  });
+};
+
 module.exports = {
   insertCities,
-  getCities
+  getCities,
+  dropCityCollection
 };
