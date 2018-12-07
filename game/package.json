@@ -7,7 +7,6 @@
     "start": "node game.js"
   },
   "xo": {
-    "esnext": true,
     "space": 2,
     "rules": {
       "max-len": [

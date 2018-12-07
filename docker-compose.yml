@@ -21,4 +21,9 @@ services:
     ports:
       - "3003:3000"
 
-
+#  interface:
+#    build: ./interface
+#    environment:
+#      - SERVERLESS_URL=http://192.168.99.100:3000/
+#    ports:
+#      - "4200:4200"

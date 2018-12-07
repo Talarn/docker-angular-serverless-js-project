@@ -9,7 +9,7 @@ const getCities = () => {
 };
 
 const dropCityCollection = async () => {
-  await City.remove({}, function(err) {
+  await City.remove({}, err => {
   });
 };
 
