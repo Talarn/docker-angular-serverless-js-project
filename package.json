@@ -6,7 +6,6 @@
   "author": "Rajkoumar <sylvain.rajkoumar@gmail.com>",
   "license": "MIT",
   "xo": {
-    "esnext": true,
     "space": 2,
     "rules": {
       "max-len": [
