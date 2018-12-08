@@ -16,7 +16,7 @@ const getSpeedBoost = async () => {
 
 const vehiclesInitialization = async () => {
   const array = [
-    {name: 'Toyota', position: [0, 0], destination: [0, 0], speed: 1, path: []}
+    {name: 'Toyota', position: [0, 0], destination: [0, 0], speed: 4, path: []}
   ];
   await requestPromise({
     body: array,
@@ -100,14 +100,14 @@ const vehiclesPositionInitialisation = async (vehicles, cities) => {
   }
 };
 
-const getUnitVector = (a, b) => {
+const getUnitVector = (a, b, speed) => {
   const vector = [b[0] - a[0], b[1] - a[1]];
   const vectorLength = Math.floor(
     Math.sqrt((vector[0] * vector[0]) + (vector[1] * vector[1])));
   vector[0] /= vectorLength;
   vector[1] /= vectorLength;
-  vector[0] = Math.ceil(vector[0] * 4);
-  vector[1] = Math.ceil(vector[1] * 4);
+  vector[0] = Math.ceil(vector[0] * speed);
+  vector[1] = Math.ceil(vector[1] * speed);
   return vector;
 };
 
@@ -123,9 +123,15 @@ const moveVehicles = async vehicles => {
   for (let i = 0; i < vehicles.length; i++) {
     const vehicle = vehicles[i];
     const nextCityPosition = vehicle.path[0];
-    const unitVector = getUnitVector(vehicle.position, nextCityPosition);
-    const newX = vehicle.position[0] + unitVector[0];
-    const newY = vehicle.position[1] + unitVector[1];
+    let unitVector;
+    let newX = vehicle.position[0];
+    let newY = vehicle.position[1];
+    if (vehicle.position != nextCityPosition){
+      unitVector = getUnitVector(vehicle.position, nextCityPosition, vehicle.speed);
+      newX = vehicle.position[0] + unitVector[0];
+      newY = vehicle.position[1] + unitVector[1];
+    }
+
     await updateVehiclePosition(vehicle.name, [newX, newY]);
   }
 };
@@ -184,7 +190,7 @@ const dropCollections = async () => {
 const gameInitialization = async () => {
   await dropCollections();
   await vehiclesInitialization();
-  await citiesInitialization(3);
+  await citiesInitialization(5);
 
   const vehicles = await retrieveVehicles();
   const cities = await retrieveCities();
@@ -202,5 +208,5 @@ const gameLoop = async () => {
 
 setTimeout(gameInitialization, 8000);
 setTimeout(() => {
-  setInterval(gameLoop, 2000);
+  setInterval(gameLoop, 500);
 }, 12000);

@@ -21,7 +21,7 @@ const updateVehiclePath = async ({name, path}) => {
 };
 
 const getVehicles = () => {
-  return Vehicle.find({}, {name: 1, position: 1, destination: 1, _id: 0, path: 1}).exec();
+  return Vehicle.find({}, {name: 1, position: 1, destination: 1, _id: 0, path: 1, speed: 1}).exec();
 };
 
 const dropVehicleCollection = async () => {

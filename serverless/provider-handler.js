@@ -1,6 +1,5 @@
 const provideBoost = () => {
-// Retourner une valeur au pif pour le boost de vitesse
-  return 2;
+  return Math.floor(Math.random() * (7 - 4 + 1) ) + 4;
 };
 
 const provideBoostHandler = async msg => ({
