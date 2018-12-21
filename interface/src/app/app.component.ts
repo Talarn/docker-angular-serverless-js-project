@@ -6,7 +6,7 @@ const serverlessUrl = 'http://192.168.99.100:3000/';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.css']
 })
 
 export class AppComponent implements OnInit{
