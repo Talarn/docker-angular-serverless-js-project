@@ -17,5 +17,5 @@ docker-compose up --build
 ```
 
 If you want to see the interface, open your browser and go to http://192.168.99.100:4200/  
-It might take some times.
+The initialization might take some times.
 
