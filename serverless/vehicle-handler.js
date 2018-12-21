@@ -16,17 +16,20 @@ const updateVehicleSpeedHandler = async msg => ({
 
 const updateVehiclePositionHandler = async msg => ({
   status: 200,
-  body: JSON.stringify(await Vehicle.updateVehiclePosition(JSON.parse(msg.body)))
+  body: JSON.stringify(await Vehicle.updateVehiclePosition(
+    JSON.parse(msg.body)))
 });
 
 const updateVehiclePathHandler = async msg => ({
   status: 200,
-  body: JSON.stringify(await Vehicle.updateVehiclePath(JSON.parse(msg.body)))
+  body: JSON.stringify(await Vehicle.updateVehiclePath(
+    JSON.parse(msg.body)))
 });
 
 const updateVehicleDestinationHandler = async msg => ({
   status: 200,
-  body: JSON.stringify(await Vehicle.updateVehicleDestination(JSON.parse(msg.body)))
+  body: JSON.stringify(await Vehicle.updateVehicleDestination(
+    JSON.parse(msg.body)))
 });
 
 const getVehiclesHandler = async msg => ({
@@ -36,7 +39,8 @@ const getVehiclesHandler = async msg => ({
 
 const dropVehicleCollectionHandler = async msg => ({
   status: 200,
-  body: JSON.stringify(await Vehicle.dropVehicleCollection(JSON.parse(msg.body)))
+  body: JSON.stringify(await Vehicle.dropVehicleCollection(
+    JSON.parse(msg.body)))
 });
 
 module.exports = {

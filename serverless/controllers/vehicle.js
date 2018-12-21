@@ -5,14 +5,14 @@ const insertVehicles = async arr => {
 };
 
 const updateVehiclePosition = async ({name, position}) => {
-  // Console.log('Vehicle', name, 'new position :', position);
   await Vehicle.findOneAndUpdate({name}, {position}).exec();
 };
+
 const updateVehicleSpeed = async ({name, speed}) => {
   await Vehicle.findOneAndUpdate({name}, {speed}).exec();
 };
+
 const updateVehicleDestination = async ({name, destination}) => {
-  // Console.log('Vehicle', name, 'new destination :', destination);
   await Vehicle.findOneAndUpdate({name}, {destination}).exec();
 };
 
@@ -21,12 +21,12 @@ const updateVehiclePath = async ({name, path}) => {
 };
 
 const getVehicles = () => {
-  return Vehicle.find({}, {name: 1, position: 1, destination: 1, _id: 0, path: 1, speed: 1}).exec();
+  return Vehicle.find({}, {name: 1, position: 1, destination: 1, _id: 0,
+    path: 1, speed: 1}).exec();
 };
 
 const dropVehicleCollection = async () => {
-  await Vehicle.remove({}, err => {
-  });
+  await Vehicle.remove({});
 };
 
 module.exports = {

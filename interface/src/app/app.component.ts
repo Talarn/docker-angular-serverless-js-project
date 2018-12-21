@@ -10,15 +10,16 @@ const serverlessUrl = 'http://192.168.99.100:3000/';
 })
 
 export class AppComponent implements OnInit{
-  title = 'interface';
+  title = 'interface de merde';
   cities = [];
   vehicles = [];
+  vehiclesPath = [];
 
   getCities = () => {
     this.http.get(serverlessUrl + 'getCities',{observe: 'response'})
       .subscribe(resp => {
         this.cities = [];
-        for (let i = 0; i < 5; i++){
+        for (let i = 0; i < 10; i++){
           this.cities.push(resp.body[i].position);
         }
       });
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit{
         this.vehicles = [];
         for (let i = 0; i < 1; i++){
           this.vehicles.push(resp.body[i].position);
+          this.vehiclesPath.push(resp.body[i].path);
         }
       });
   };
@@ -40,7 +42,7 @@ export class AppComponent implements OnInit{
     let canvas =  <HTMLCanvasElement>document.getElementById("myCanvas");
     let ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < 5; i++){
+    for (let i = 0; i < 10; i++){
       ctx.beginPath();
       ctx.arc(this.cities[i][0]*6,this.cities[i][1]*6,10,0,2*Math.PI);
       ctx.stroke();

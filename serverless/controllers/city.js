@@ -9,8 +9,7 @@ const getCities = () => {
 };
 
 const dropCityCollection = async () => {
-  await City.remove({}, err => {
-  });
+  await City.remove({});
 };
 
 module.exports = {
