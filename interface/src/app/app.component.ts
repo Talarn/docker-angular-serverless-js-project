@@ -12,7 +12,7 @@ const serverlessUrl = 'http://192.168.99.100:3000/';
 export class AppComponent implements OnInit{
   title = 'interface de merde';
   cities = [];
-  vehicles = [];
+  vehiclesPosition = [];
   vehiclesPath = [];
 
   getCities = () => {
@@ -28,9 +28,10 @@ export class AppComponent implements OnInit{
   getVehicles = () => {
     this.http.get(serverlessUrl + 'getVehicles',{observe: 'response'})
       .subscribe(resp => {
-        this.vehicles = [];
+        this.vehiclesPosition = [];
+        this.vehiclesPath = [];
         for (let i = 0; i < 1; i++){
-          this.vehicles.push(resp.body[i].position);
+          this.vehiclesPosition.push(resp.body[i].position);
           this.vehiclesPath.push(resp.body[i].path);
         }
       });
@@ -49,7 +50,7 @@ export class AppComponent implements OnInit{
     }
     for (let i = 0; i < 1; i++){
       ctx.beginPath();
-      ctx.arc(this.vehicles[i][0]*6,this.vehicles[i][1]*6,5,0,2*Math.PI);
+      ctx.arc(this.vehiclesPosition[i][0]*6,this.vehiclesPosition[i][1]*6,5,0,2*Math.PI);
       ctx.stroke();
     }
   };
@@ -62,5 +63,4 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
     setInterval(this.drawOnCanvas, 400);
   }
-
 }
